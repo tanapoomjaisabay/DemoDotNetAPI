@@ -29,7 +29,7 @@ namespace CustomerAPI.Services
                     data = new ResultCustomerInfoModel 
                     { 
                         custId = 1,
-                        customerNumber = "11111111",
+                        customerNumber = "11111111", 
                         name = ""
                     }
                 };
