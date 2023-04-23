@@ -10,4 +10,15 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataAccess\Interfaces\" />
+    <Folder Include="APIHelper\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="APIHelperLIB">
+      <HintPath>APIHelper\APIHelperLIB.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
