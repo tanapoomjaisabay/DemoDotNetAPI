@@ -1,17 +1,27 @@
-﻿using CustomerAPI.Models;
+﻿using CustomerAPI.DataAccess;
+using CustomerAPI.Models;
 using CustomerAPI.Services.Interfaces;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace CustomerAPI.Services
 {
     public class CustomerService : ICustomerService
     {
-        public CustomerService() { }
+        private readonly CustomerDbContext customerDb;
+
+        public CustomerService(CustomerDbContext _customerDb) 
+        {
+            customerDb = _customerDb;
+        }
 
         public ResponseCustomerInfoModel GetCustomerInformation(RequestCustomerInfoModel model)
         {
             try
             {
-                
+
+                var data = SELECT_CUSTOMER_INFO();
+
                 return new ResponseCustomerInfoModel
                 {
                     status = 200,
@@ -33,6 +43,22 @@ namespace CustomerAPI.Services
                     message = "Get customer data failed. Please try again.",
                     error = ex.Message
                 };
+            }
+        }
+
+        private ResultCustomerInfoModel? SELECT_CUSTOMER_INFO()
+        {
+            try
+            {
+                var custInfo = customerDb.custInfoEntity;
+
+                var result = (from tb in custInfo where tb.custId == 0 && tb.customerNumber == "" select tb).FirstOrDefault();
+                ResultCustomerInfoModel? data = JsonConvert.DeserializeObject<ResultCustomerInfoModel>(JsonConvert.SerializeObject(result));
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw new ValidationException(ex.Message);
             }
         }
     }
