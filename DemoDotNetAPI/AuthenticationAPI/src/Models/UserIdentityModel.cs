@@ -2,7 +2,7 @@
 
 namespace AuthenticationAPI.Models
 {
-    public class CustAuthenModel : CustAuthenEntity
+    public class UserIdentityModel : CustAuthenEntity
     {
     }
 }

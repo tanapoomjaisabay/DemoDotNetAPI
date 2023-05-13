@@ -1,7 +1,9 @@
 ﻿using AuthenticationAPI.DataAccess;
 using AuthenticationAPI.Models;
 using AuthenticationAPI.Services.Interfaces;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AuthenticationAPI.Services
 {
@@ -14,7 +16,7 @@ namespace AuthenticationAPI.Services
             _context = context;
         }
 
-        public CustAuthenModel Get_AuthenData_By_Username(string username)
+        public List<UserIdentityModel> Get_AuthenData_By_Username(string username)
         {
             try
             {
@@ -24,10 +26,15 @@ namespace AuthenticationAPI.Services
                               where d.username == username
                               select d).ToList();
 
-                // check list > 0 && list = 1
-                // check status = A
-
-                return null;
+                var data = JsonConvert.DeserializeObject<List<UserIdentityModel>>(JsonConvert.SerializeObject(result));
+                if (data == null)
+                {
+                    throw new ValidationException("Data is null");
+                }
+                else
+                {
+                    return data;
+                }
             }
             catch (Exception ex)
             {

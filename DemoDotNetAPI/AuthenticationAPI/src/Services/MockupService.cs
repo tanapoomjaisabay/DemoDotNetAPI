@@ -19,7 +19,7 @@ namespace AuthenticationAPI.Services
         {
             return new ResultAuthenModel
             {
-                customerId = "10000001",
+                customerNumber = "10000001",
                 name = "Mr. Tanapoom Jaisabay",
                 customerStatus = "N"
             };

@@ -22,10 +22,10 @@ namespace AuthenticationAPI.Services
         {
             try
             {
-                string custId = VerifyUserName(model);
-                VerifyPassword(model);
-                var data = GetCustomerInfo(model);
+                UserIdentityModel userIdentity = VerifyUserName(model);
+                VerifyPassword(userIdentity, model.password);
 
+                var data = GetCustomerInfo(model);
                 data.token = GenrateUserToken(data, model);
 
                 return new ResponseAuthenModel 
@@ -47,12 +47,35 @@ namespace AuthenticationAPI.Services
             }
         }
 
-        private string VerifyUserName(RequestAuthenModel model)
+        private UserIdentityModel VerifyUserName(RequestAuthenModel model)
         {
             try
             {
-                _dataService.Get_AuthenData_By_Username("tanapoom1993");
-                return "10000001";
+                var authenData = _dataService.Get_AuthenData_By_Username(model.username);
+
+                if (authenData == null)
+                {
+                    throw new ValidationException("Error verify usern");
+                }
+                else if (authenData.Count == 0)
+                {
+                    throw new ValidationException("Username is not found");
+                }
+                else if (authenData.Count > 1)
+                {
+                    throw new ValidationException("Username has more than 1 row");
+                }
+
+                // check status = A
+                var userIdentity = authenData[0];
+                if (userIdentity.status != "A")
+                {
+                    throw new ValidationException("Username is not active [" + userIdentity.status + "]");
+                }
+                else
+                {
+                    return userIdentity;
+                }
             }
             catch (Exception ex)
             {
@@ -60,10 +83,14 @@ namespace AuthenticationAPI.Services
             }
         }
 
-        private void VerifyPassword(RequestAuthenModel model)
+        private void VerifyPassword(UserIdentityModel userIdentity, string passwordInput)
         {
             try
             {
+                if (userIdentity.password.Trim() != passwordInput.Trim())
+                {
+                    throw new ValidationException("Password incorrect");
+                }
             }
             catch (Exception ex)
             {
@@ -73,14 +100,13 @@ namespace AuthenticationAPI.Services
 
         private ResultAuthenModel GetCustomerInfo(RequestAuthenModel model)
         {
-            //call api
             try
             {
-                var r = _httpConnect.GetAPI("http://localhost:5075/WeatherForecast");
+                //var r = _httpConnect.GetAPI("http://localhost:5075/WeatherForecast");
 
                 return new ResultAuthenModel 
                 {
-                    customerId = "10000001",
+                    customerNumber = "10000001",
                     name = "Mr. Tanapoom Jaisabay",
                     customerStatus = "N"
                 };
@@ -99,7 +125,7 @@ namespace AuthenticationAPI.Services
 
                 RequestTokenModel data = new RequestTokenModel
                 {
-                    customerId = custInfo.customerId,
+                    customerId = custInfo.customerNumber,
                     customerStatus = custInfo.customerStatus,
                     username = model.username
                 };
@@ -108,7 +134,7 @@ namespace AuthenticationAPI.Services
             }
             catch (Exception ex)
             {
-                throw new ValidationException("Error genrate user token. " + ex.Message);
+                throw new ValidationException("Error generate user token. " + ex.Message);
             }
         }
     }
