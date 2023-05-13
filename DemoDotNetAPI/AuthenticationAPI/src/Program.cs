@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using APIHelperLIB.Service;
+using Microsoft.Extensions.Configuration;
+using AuthenticationAPI.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
 #region "swagger"
 builder.Services.AddSwaggerGen(options =>
 {
@@ -74,6 +80,9 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 #endregion
+
+builder.Services.AddDbContext<CustomerAuthenContext>(options => options.UseSqlServer(
+builder.Configuration.GetConnectionString("DemoContext")));
 
 // injection service
 builder.Services.AddScoped<IAuthenService, AuthenService>();
