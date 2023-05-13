@@ -9,11 +9,13 @@ namespace AuthenticationAPI.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpConnectService _httpConnect;
+        private readonly IDataService _dataService;
 
-        public AuthenService(IConfiguration configuration, IHttpConnectService httpConnect)
+        public AuthenService(IConfiguration configuration, IHttpConnectService httpConnect, IDataService dataService)
         {
             _configuration = configuration;
             _httpConnect = httpConnect;
+            _dataService = dataService;
         }
 
         public ResponseAuthenModel LoginUserPssword(RequestAuthenModel model)
@@ -49,6 +51,7 @@ namespace AuthenticationAPI.Services
         {
             try
             {
+                _dataService.Get_AuthenData_By_Username("tanapoom1993");
                 return "10000001";
             }
             catch (Exception ex)

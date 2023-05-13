@@ -87,6 +87,7 @@ builder.Configuration.GetConnectionString("DemoContext")));
 // injection service
 builder.Services.AddScoped<IAuthenService, AuthenService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddScoped<IHttpConnectService, HttpConnectService>();
 
 var app = builder.Build();

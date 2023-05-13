@@ -14,14 +14,14 @@ namespace AuthenticationAPI.DataAccess
         public string password { get; set; } = string.Empty;
         [Column("status")]
         public string status { get; set; } = "D";
-        [Column("invalidPasword")]
-        public int invalidPasword { get; set; }
-        [Column("changePasword")]
-        public int changePasword { get; set; }
+        [Column("invalidPassword")]
+        public int invalidPassword { get; set; }
+        [Column("changePassword")]
+        public int changePassword { get; set; }
         [Column("updateBy")]
-        public string updateBy { get; set; } = string.Empty;
+        public string? updateBy { get; set; } = string.Empty;
         [Column("updateDatetime")]
-        public DateTime updateDatetime { get; set; }
+        public DateTime? updateDatetime { get; set; }
         [Column("createBy")]
         public string createBy { get; set; } = string.Empty;
         [Column("createDatetime")]
