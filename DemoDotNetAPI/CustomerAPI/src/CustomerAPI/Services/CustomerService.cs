@@ -51,13 +51,14 @@ namespace CustomerAPI.Services
                 var result = (from tb in ent 
                               where tb.customerNumber == customerNumber 
                               select tb).FirstOrDefault();
-                var data = JsonConvert.DeserializeObject<ResultCustomerInfoModel>(JsonConvert.SerializeObject(result));
-                if (data == null)
+
+                if (result == null)
                 {
-                    throw new ValidationException("Data is null");
+                    throw new ValidationException("Not found data");
                 }
                 else
                 {
+                    var data = JsonConvert.DeserializeObject<ResultCustomerInfoModel>(JsonConvert.SerializeObject(result));
                     return data;
                 }
             }
