@@ -10,7 +10,7 @@ This solution consists of three systems. The main system is AuthenticationAPI, w
 Additionally, there is APIHelperLIB, a utility service, and CustomerAPI, responsible for retrieving data from the database
 
 ## Example Request and Response
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://i.imgur.com/uMPfkdQ.png)
 
 ## Code Coverage Analysis
 ![App Screenshot](https://i.imgur.com/tsParxL.png)
