@@ -24,9 +24,9 @@ namespace AuthenticationAPI.UnitTest.ServiceTests
         {
             //load stub dataset
             string id = Guid.NewGuid().ToString();
-            var ILContract = new DbContextOptionsBuilder<CustomerAuthenContext>().UseInMemoryDatabase(id)
+            var contextMemory = new DbContextOptionsBuilder<CustomerAuthenContext>().UseInMemoryDatabase(id)
                .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-            _context = new CustomerAuthenContext(ILContract.Options);
+            _context = new CustomerAuthenContext(contextMemory.Options);
             _context.LoadDataCustomerAuthen();
 
             _transactionDate = DateTime.ParseExact("14/05/2565 12:30:45", "dd/MM/yyyy HH:mm:ss", new CultureInfo("th-TH", false));

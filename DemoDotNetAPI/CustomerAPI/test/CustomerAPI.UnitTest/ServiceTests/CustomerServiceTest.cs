@@ -34,9 +34,9 @@ namespace CustomerAPI.UnitTest.ServiceTests
 
             //load stub dataset
             string id = Guid.NewGuid().ToString();
-            var ILContract = new DbContextOptionsBuilder<CustomerInfoContext>().UseInMemoryDatabase(id)
+            var contextMemory = new DbContextOptionsBuilder<CustomerInfoContext>().UseInMemoryDatabase(id)
                .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-            _context = new CustomerInfoContext(ILContract.Options);
+            _context = new CustomerInfoContext(contextMemory.Options);
             _context.LoadDataCustomerInfomation();
 
             _transactionDate = DateTime.ParseExact("14/05/2565 12:30:45", "dd/MM/yyyy HH:mm:ss", new CultureInfo("th-TH", false));
