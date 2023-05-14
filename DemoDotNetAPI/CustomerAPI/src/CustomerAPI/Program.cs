@@ -2,6 +2,7 @@ using CustomerAPI.DataAccess;
 using CustomerAPI.Services;
 using CustomerAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -75,6 +76,11 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 #endregion
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddDbContext<CustomerInfoContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("DemoContext")));

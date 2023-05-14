@@ -3,6 +3,7 @@ using CustomerAPI.Models;
 using CustomerAPI.Services.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using static APIHelperLIB.Service.ValidateService;
 
 namespace CustomerAPI.Services
 {
@@ -17,8 +18,11 @@ namespace CustomerAPI.Services
 
         public ResponseCustomerInfoModel GetCustomerInformation(RequestCustomerInfoModel model)
         {
+            string errorMessage = "Failed get customer infomation. Please try again.";
+
             try
             {
+                ValidateModelParam<RequestCustomerInfoModel>(model, ref errorMessage);
 
                 ResultCustomerInfoModel data = Get_CustomerInfomation_By_CustNumber(model.customerNumber);
                 data.fullName = GetFullNameCustomer(data);
@@ -36,7 +40,7 @@ namespace CustomerAPI.Services
                 {
                     status = 500,
                     success = false,
-                    message = "Failed get customer infomation. Please try again.",
+                    message = errorMessage,
                     error = ex.Message
                 };
             }
