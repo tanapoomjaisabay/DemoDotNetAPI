@@ -53,11 +53,7 @@ namespace AuthenticationAPI.Services
             {
                 var authenData = _dataService.Get_AuthenData_By_Username(model.username);
 
-                if (authenData == null)
-                {
-                    throw new ValidationException("Error verify usern");
-                }
-                else if (authenData.Count == 0)
+                if (authenData.Count == 0)
                 {
                     throw new ValidationException("Username is not found");
                 }
