@@ -30,7 +30,7 @@ namespace AuthenticationAPI.Services
 
                 // get customer infomation and user jwt token
                 var data = GetCustomerInfo(userIdentity);
-                data.token = GenrateUserToken(data, model);
+                data.token = GenrateUserToken(data, userIdentity);
 
                 return new ResponseAuthenModel 
                 {
@@ -107,32 +107,20 @@ namespace AuthenticationAPI.Services
                     customerNumber = model.customerNumber
                 };
                 
-                var jsonData = _httpConnect.PostAPI(_configuration["CustomerService:URL"], "/Customer/GetInformation", JsonConvert.SerializeObject(request));
-                var response = JsonConvert.DeserializeObject<ResponseHttpConnectModel>(jsonData);
+                var content = _httpConnect.PostAPI(_configuration["CustomerService:URL"], "/Customer/GetInformation", JsonConvert.SerializeObject(request));
+                var response = JsonConvert.DeserializeObject<ResponseHttpConnectModel>(content);
+                var result = VerifyCustomerInfoResult(response);
 
-                if (response == null)
+                return new ResultAuthenModel
                 {
-                    throw new ValidationException("Response is null");
-                }
-                else if (response.status == 200)
-                {
-                    var result = JsonConvert.DeserializeObject<CustomerMasterInfoModel>(JsonConvert.SerializeObject(response.data));
-
-                    return new ResultAuthenModel
-                    {
-                        customerNumber = model.customerNumber,
-                        idCardNumber = result.idCardNumber,
-                        name = result.fullName,
-                        birthDate = result.birthDate,
-                        gender = result.gender,
-                        mobileNumber = result.mobileNumber,
-                        customerStatus = result.status
-                    };
-                }
-                else
-                {
-                    throw new ValidationException("InternalService exception. " + response.error);
-                }
+                    customerNumber = model.customerNumber,
+                    idCardNumber = result.idCardNumber,
+                    name = result.fullName,
+                    birthDate = result.birthDate,
+                    gender = result.gender,
+                    mobileNumber = result.mobileNumber,
+                    customerStatus = result.status
+                };
             }
             catch (Exception ex)
             {
@@ -140,7 +128,24 @@ namespace AuthenticationAPI.Services
             }
         }
 
-        private string GenrateUserToken(ResultAuthenModel custInfo, RequestAuthenModel model) 
+        private CustomerMasterInfoModel VerifyCustomerInfoResult(ResponseHttpConnectModel? response)
+        {
+            if (response == null)
+            {
+                throw new ValidationException("Response is null");
+            }
+            else if (response.status != 200)
+            {
+                throw new ValidationException("InternalService has exception. " + response.error);
+            }
+            else
+            {
+                var result = JsonConvert.DeserializeObject<CustomerMasterInfoModel>(JsonConvert.SerializeObject(response.data));
+                return result;
+            }
+        }
+
+        public string GenrateUserToken(ResultAuthenModel custInfo, UserIdentityModel userIdentity) 
         {
             try
             {
@@ -150,7 +155,7 @@ namespace AuthenticationAPI.Services
                 {
                     customerId = custInfo.customerNumber,
                     customerStatus = custInfo.customerStatus,
-                    username = model.username
+                    username = userIdentity.username
                 };
 
                 return tokenService.GenerateJwtToken(data);

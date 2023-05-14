@@ -37,7 +37,7 @@ namespace AuthenticationAPI.UnitTest.StubDataTests
             }
             else
             {
-                UserIdentityModel data = CreateResult(1, "1111100001", username, "Aa112233", "A");
+                UserIdentityModel data = CreateResult(1, GetDynamicCustomerNumber(username), username, "Aa112233", "A");
                 response.Add(data);
             }
 
@@ -62,5 +62,18 @@ namespace AuthenticationAPI.UnitTest.StubDataTests
                 createDatetime = _dateTransaction,
             };
         }
+
+        private string GetDynamicCustomerNumber(string username)
+        {
+            try
+            {
+                return username.Split("_")[1];
+            }
+            catch (Exception)
+            {
+                return "1111100001";
+            }
+        }
+
     }
 }

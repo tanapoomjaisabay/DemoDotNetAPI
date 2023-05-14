@@ -19,7 +19,24 @@ namespace AuthenticationAPI.UnitTest.StubDataTests
                 {"JWT:issuer","https://www.google.com"},
                 {"JWT:expiresMinutes","120"},
 
+                {"CustomerService:URL","http://localhost:5075/api"},
+
                 {"MessageResponse:Activated","ขออภัยค่ะ ท่านทำการยืนยันการใช้งานผ่านอีเมลฉบับนี้เรียบร้อบแล้ว"},
+        };
+            return arrayDict;
+        }
+
+        public Dictionary<string, string> InvalidAppsetting()
+        {
+            Dictionary<string, string> arrayDict = new Dictionary<string, string>
+            {
+                {"Logging:LogLevel:Default","Warning"},
+                {"AllowedHosts","*" },
+
+                {"JWT:issuer","https://www.google.com"},
+                {"JWT:expiresMinutes","120"},
+
+                {"CustomerService:URL","http://localhost:5075/api"},
         };
             return arrayDict;
         }
