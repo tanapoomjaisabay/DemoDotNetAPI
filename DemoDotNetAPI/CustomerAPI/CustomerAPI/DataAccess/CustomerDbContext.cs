@@ -1,13 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CustomerAPI.DataAccess.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerAPI.DataAccess
 {
-    public class CustomerDbContext : DbContext
+    public class CustomerInfoContext : DbContext, CustomerInfoDataSet
     {
-        public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options)
+        public DbSet<CustomerMasterInfoEntity> custMasterInfoEntity => Set<CustomerMasterInfoEntity>();
+
+        public CustomerInfoContext(DbContextOptions<CustomerInfoContext> options) : base(options)
         {
         }
 
-        public DbSet<CustomerInfoEntity>? custInfoEntity { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            var customeAuthenBuilder = builder.Entity<CustomerMasterInfoEntity>();
+            customeAuthenBuilder.ToTable("customer_master_info", "dbo");
+            customeAuthenBuilder.HasKey(x => new { x.idKey });
+            customeAuthenBuilder.Property(x => x.idKey).ValueGeneratedOnAdd();
+
+        }
     }
 }

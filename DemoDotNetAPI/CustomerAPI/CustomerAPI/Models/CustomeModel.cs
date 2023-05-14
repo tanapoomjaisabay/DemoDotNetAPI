@@ -1,4 +1,5 @@
 ﻿using APIHelperLIB.Models;
+using CustomerAPI.DataAccess;
 
 namespace CustomerAPI.Models
 {
@@ -18,17 +19,7 @@ namespace CustomerAPI.Models
         public string fullName { get; set; } = string.Empty;
     }
 
-    public class CustomerInfoModel
+    public class CustomerInfoModel : CustomerMasterInfoEntity
     {
-        public int custId { get; set; }
-        public string customerNumber { get; set; } = string.Empty;
-        public string idCardNumber { get; set; } = string.Empty;
-        public string title { get; set; } = string.Empty;
-        public string name { get; set; } = string.Empty;
-        public string surname { get; set; } = string.Empty;
-        public string birthDate { get; set; } = string.Empty;
-        public string gender { get; set; } = string.Empty;
-        public string mobileNumber { get; set; } = string.Empty;
-        public string customerStatus { get; set; } = string.Empty;
     }
 }

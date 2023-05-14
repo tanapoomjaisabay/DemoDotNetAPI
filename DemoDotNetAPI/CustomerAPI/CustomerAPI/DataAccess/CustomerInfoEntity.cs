@@ -2,11 +2,23 @@
 
 namespace CustomerAPI.DataAccess
 {
-    public class CustomerInfoEntity : CustomerInfoModel
+    public class CustomerMasterInfoEntity
     {
-        public string createBy { get; set; } = string.Empty;
-        public DateTime? createDateTime { get; set; }
+        public int idKey { get; set; }
+        public string customerNumber { get; set; } = string.Empty;
+        public string idCardNumber { get; set; } = string.Empty;
+        public string nameTH { get; set; } = string.Empty;
+        public string surnameTH { get; set; } = string.Empty;
+        public string nameEN { get; set; } = string.Empty;
+        public string surnameEN { get; set; } = string.Empty;
+        public string birthDate { get; set; } = string.Empty;
+        public string gender { get; set; } = string.Empty;
+        public string mobileNumber { get; set; } = string.Empty;
+        public string? email { get; set; }
+        public string status { get; set; } = string.Empty;
         public string updateBy { get; set; } = string.Empty;
-        public DateTime? updateDateTime { get; set; }
+        public DateTime? updateDatetime { get; set; }
+        public string createBy { get; set; } = string.Empty;
+        public DateTime createDatetime { get; set; }
     }
 }

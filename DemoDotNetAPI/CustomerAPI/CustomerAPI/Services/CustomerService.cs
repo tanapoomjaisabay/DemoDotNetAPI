@@ -8,9 +8,9 @@ namespace CustomerAPI.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly CustomerDbContext customerDb;
+        private readonly CustomerInfoContext customerDb;
 
-        public CustomerService(CustomerDbContext _customerDb) 
+        public CustomerService(CustomerInfoContext _customerDb) 
         {
             customerDb = _customerDb;
         }
@@ -20,18 +20,14 @@ namespace CustomerAPI.Services
             try
             {
 
-                var data = SELECT_CUSTOMER_INFO();
+                ResultCustomerInfoModel data = Get_CustomerInfomation_By_CustNumber(model.customerNumber);
+                data.fullName = GetFullNameCustomer(data);
 
                 return new ResponseCustomerInfoModel
                 {
                     status = 200,
                     success = true,
-                    data = new ResultCustomerInfoModel 
-                    { 
-                        custId = 1,
-                        customerNumber = "11111111", 
-                        name = ""
-                    }
+                    data = data
                 };
             }
             catch (Exception ex)
@@ -40,26 +36,40 @@ namespace CustomerAPI.Services
                 {
                     status = 500,
                     success = false,
-                    message = "Get customer data failed. Please try again.",
+                    message = "Failed get customer infomation. Please try again.",
                     error = ex.Message
                 };
             }
         }
 
-        private ResultCustomerInfoModel? SELECT_CUSTOMER_INFO()
+        private ResultCustomerInfoModel Get_CustomerInfomation_By_CustNumber(string customerNumber)
         {
             try
             {
-                var custInfo = customerDb.custInfoEntity;
+                var ent = customerDb.custMasterInfoEntity;
 
-                var result = (from tb in custInfo where tb.custId == 0 && tb.customerNumber == "" select tb).FirstOrDefault();
-                ResultCustomerInfoModel? data = JsonConvert.DeserializeObject<ResultCustomerInfoModel>(JsonConvert.SerializeObject(result));
-                return data;
+                var result = (from tb in ent 
+                              where tb.customerNumber == customerNumber 
+                              select tb).FirstOrDefault();
+                var data = JsonConvert.DeserializeObject<ResultCustomerInfoModel>(JsonConvert.SerializeObject(result));
+                if (data == null)
+                {
+                    throw new ValidationException("Data is null");
+                }
+                else
+                {
+                    return data;
+                }
             }
             catch (Exception ex)
             {
-                throw new ValidationException(ex.Message);
+                throw new ValidationException("Failed get customer infomation by CustomerNumber. " + ex.Message);
             }
+        }
+
+        private string GetFullNameCustomer(ResultCustomerInfoModel data)
+        {
+            return data.nameEN + " " + data.surnameEN;
         }
     }
 }
