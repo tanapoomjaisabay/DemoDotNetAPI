@@ -28,8 +28,8 @@ namespace AuthenticationAPI.Services
 
                 RequestTokenModel data = new RequestTokenModel
                 {
-                    customerId = "10009999",
-                    customerStatus = "N",
+                    customerNumber = "1000099999",
+                    customerStatus = "A",
                     username = "DemoTest01"
                 };
 
@@ -48,7 +48,7 @@ namespace AuthenticationAPI.Services
                 {
                     status = 500,
                     success = false,
-                    message = "RequestToken failed. Please enter a valid data.",
+                    message = "Failed request token. Please enter a valid data.",
                     error = ex.Message
                 };
             }
@@ -65,7 +65,7 @@ namespace AuthenticationAPI.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.UserData, model.username),
-                    new Claim(ClaimTypes.PrimarySid, model.customerId),
+                    new Claim(ClaimTypes.PrimarySid, model.customerNumber),
                     new Claim(ClaimTypes.Role, model.customerStatus),
                     new Claim(ClaimTypes.Hash, Guid.NewGuid().ToString())
                 }),

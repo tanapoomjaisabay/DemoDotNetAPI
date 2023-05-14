@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D5DD36DB-76E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationAPI", "AuthenticationAPI\src\AuthenticationAPI.csproj", "{855F1233-3F67-421C-A691-DDD48F0AB74F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAPI.UnitTest", "AuthenticationAPI\test\AuthenticationAPI.UnitTest\AuthenticationAPI.UnitTest.csproj", "{C0A1F238-CC71-4F3A-9BFC-8116E385FF99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationAPI.UnitTest", "AuthenticationAPI\test\AuthenticationAPI.UnitTest\AuthenticationAPI.UnitTest.csproj", "{C0A1F238-CC71-4F3A-9BFC-8116E385FF99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65B71C1F-DE82-403E-A0C3-02898692A3AE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -27,14 +27,7 @@ namespace AuthenticationAPI.Services
                               select d).ToList();
 
                 var data = JsonConvert.DeserializeObject<List<UserIdentityModel>>(JsonConvert.SerializeObject(result));
-                if (data == null)
-                {
-                    throw new ValidationException("Data is null");
-                }
-                else
-                {
-                    return data;
-                }
+                return data;
             }
             catch (Exception ex)
             {

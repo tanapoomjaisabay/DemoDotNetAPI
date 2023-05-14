@@ -54,10 +54,11 @@ namespace AuthenticationAPI.UnitTest.ServiceTests
 
             var expectedStatus = 200;
             var actualStatus = response.status;
-            var expectedName = "Tanapoom";
-            var actualName = response.status;
+            var expectedName = "Tanapoom Jaisabay";
+            var actualName = response.data.name;
 
             Assert.Equal(expectedStatus, actualStatus);
+            Assert.Equal(expectedName, actualName);
         }
 
         [Fact]
@@ -211,7 +212,7 @@ namespace AuthenticationAPI.UnitTest.ServiceTests
         }
 
 
-        #region "Miner"
+        #region "Minor"
         [Fact]
         public void Case101_GenrateUserToken_Error_Setup_Appsetting()
         {

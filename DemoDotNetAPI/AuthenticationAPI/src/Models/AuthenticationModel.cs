@@ -31,7 +31,7 @@
     public class RequestTokenModel
     {
         public string username { get; set; } = string.Empty;
-        public string customerId { get; set; } = string.Empty;
+        public string customerNumber { get; set; } = string.Empty;
         public string customerStatus { get; set; } = string.Empty;
     }
 }

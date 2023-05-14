@@ -4,6 +4,7 @@ using AuthenticationAPI.Models;
 using AuthenticationAPI.Services.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using AuthenticationAPI.APIHelper;
 
 namespace AuthenticationAPI.Services
 {
@@ -66,7 +67,6 @@ namespace AuthenticationAPI.Services
                     throw new ValidationException("Username has more than 1 row");
                 }
 
-                // check status = A
                 var userIdentity = authenData[0];
                 if (userIdentity.status != "A")
                 {
@@ -136,11 +136,12 @@ namespace AuthenticationAPI.Services
             }
             else if (response.status != 200)
             {
-                throw new ValidationException("InternalService has exception. " + response.error);
+                throw new ValidationException("InternalService has exception. " + response.error.ToText());
             }
             else
             {
                 var result = JsonConvert.DeserializeObject<CustomerMasterInfoModel>(JsonConvert.SerializeObject(response.data));
+                //var a = response.data.MapValue<CustomerMasterInfoModel>();
                 return result;
             }
         }
@@ -153,7 +154,7 @@ namespace AuthenticationAPI.Services
 
                 RequestTokenModel data = new RequestTokenModel
                 {
-                    customerId = custInfo.customerNumber,
+                    customerNumber = custInfo.customerNumber,
                     customerStatus = custInfo.customerStatus,
                     username = userIdentity.username
                 };
