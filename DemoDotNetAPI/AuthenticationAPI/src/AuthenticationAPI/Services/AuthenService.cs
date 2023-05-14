@@ -5,6 +5,7 @@ using AuthenticationAPI.Services.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using AuthenticationAPI.APIHelper;
+using static APIHelperLIB.Service.ValidateService;
 
 namespace AuthenticationAPI.Services
 {
@@ -23,8 +24,12 @@ namespace AuthenticationAPI.Services
 
         public ResponseAuthenModel LoginUserPssword(RequestAuthenModel model)
         {
+            string errorMessage = "Login failed. Please enter a valid login name and password.";
+
             try
             {
+                ValidateModelParam<RequestAuthenModel>(model, ref errorMessage);
+
                 // verify username and password
                 UserIdentityModel userIdentity = VerifyUserName(model);
                 VerifyPassword(userIdentity, model.password);
@@ -46,7 +51,7 @@ namespace AuthenticationAPI.Services
                 {
                     status = 500,
                     success = false,
-                    message = "Login failed. Please enter a valid login name and password.",
+                    message = errorMessage,
                     error = ex.Message
                 };
             }

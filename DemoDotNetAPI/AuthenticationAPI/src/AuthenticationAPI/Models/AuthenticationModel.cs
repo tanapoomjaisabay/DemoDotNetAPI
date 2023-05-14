@@ -1,8 +1,12 @@
-﻿namespace AuthenticationAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AuthenticationAPI.Models
 {
     public class RequestAuthenModel : RequestModel
     {
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify your username")]
         public string username { get; set; } = string.Empty;
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please specify your password")]
         public string password { get; set; } = string.Empty;
     }
 

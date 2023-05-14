@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static APIHelperLIB.Service.ValidateService;
 
 namespace AuthenticationAPI.Services
 {
@@ -19,8 +20,12 @@ namespace AuthenticationAPI.Services
 
         public ResponseTokenModel RequestToken(RequestAuthenModel model)
         {
+            string errorMessage = "Failed request token. Please enter a valid data.";
+
             try
             {
+                ValidateModelParam<RequestAuthenModel>(model, ref errorMessage);
+
                 if (model.username != "demotest" || model.password != "aa112233")
                 {
                     throw new ValidationException("Invalid data.");
@@ -48,7 +53,7 @@ namespace AuthenticationAPI.Services
                 {
                     status = 500,
                     success = false,
-                    message = "Failed request token. Please enter a valid data.",
+                    message = errorMessage,
                     error = ex.Message
                 };
             }

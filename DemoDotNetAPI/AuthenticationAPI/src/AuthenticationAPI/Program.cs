@@ -8,6 +8,7 @@ using APIHelperLIB.Service;
 using Microsoft.Extensions.Configuration;
 using AuthenticationAPI.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,11 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 #endregion
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddDbContext<CustomerAuthenContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("DemoContext")));
