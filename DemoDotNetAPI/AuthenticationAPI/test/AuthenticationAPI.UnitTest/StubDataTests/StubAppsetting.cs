@@ -15,11 +15,11 @@ namespace AuthenticationAPI.UnitTest.StubDataTests
                 {"Logging:LogLevel:Default","Warning"},
                 {"AllowedHosts","*" },
 
-                {"MessageResponse:Activated","ขออภัยค่ะ ท่านทำการยืนยันการใช้งานผ่านอีเมลฉบับนี้เรียบร้อบแล้ว"},
-                {"MessageResponse:Invalid","ขออภัยค่ะ ท่านระบุข้อมูลไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง"},
-                {"MessageResponse:NotFound","ขออภัยค่ะ ไม่พบข้อมูล ในระบบ"},
+                {"JWT:securityKey","DvmC7mm7yqa4Rqp6zxRhBgJ8CHFg3"},
+                {"JWT:issuer","https://www.google.com"},
+                {"JWT:expiresMinutes","120"},
 
-                {"Message:IB290:01","ผ่าน"},
+                {"MessageResponse:Activated","ขออภัยค่ะ ท่านทำการยืนยันการใช้งานผ่านอีเมลฉบับนี้เรียบร้อบแล้ว"},
         };
             return arrayDict;
         }

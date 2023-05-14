@@ -22,9 +22,11 @@ namespace AuthenticationAPI.Services
         {
             try
             {
+                // verify username and password
                 UserIdentityModel userIdentity = VerifyUserName(model);
                 VerifyPassword(userIdentity, model.password);
 
+                // get customer infomation and user jwt token
                 var data = GetCustomerInfo(model);
                 data.token = GenrateUserToken(data, model);
 
