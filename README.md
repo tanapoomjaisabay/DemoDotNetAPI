@@ -6,6 +6,9 @@ With UnitTests to ensure application accuracy
  - [Visual Studio 2022 or higher]
  - [Microsoft SQL Server 2019 Express]
 
+This solution consists of three systems. The main system is AuthenticationAPI, which serves as the authentication component. 
+Additionally, there is APIHelperLIB, a utility service, and CustomerAPI, responsible for retrieving data from the database
+
 ## Example Request and Response
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
