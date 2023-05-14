@@ -1,6 +1,8 @@
-﻿using APIHelperLIB.Service;
+﻿using APIHelperLIB.Models;
+using APIHelperLIB.Service;
 using AuthenticationAPI.Models;
 using AuthenticationAPI.Services.Interfaces;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthenticationAPI.Services
@@ -27,7 +29,7 @@ namespace AuthenticationAPI.Services
                 VerifyPassword(userIdentity, model.password);
 
                 // get customer infomation and user jwt token
-                var data = GetCustomerInfo(model);
+                var data = GetCustomerInfo(userIdentity);
                 data.token = GenrateUserToken(data, model);
 
                 return new ResponseAuthenModel 
@@ -96,18 +98,41 @@ namespace AuthenticationAPI.Services
             }
         }
 
-        private ResultAuthenModel GetCustomerInfo(RequestAuthenModel model)
+        private ResultAuthenModel GetCustomerInfo(UserIdentityModel model)
         {
             try
             {
-                //var r = _httpConnect.GetAPI("http://localhost:5075/WeatherForecast");
-
-                return new ResultAuthenModel 
+                RequestCustomerInfoModel request = new RequestCustomerInfoModel 
                 {
-                    customerNumber = "10000001",
-                    name = "Mr. Tanapoom Jaisabay",
-                    customerStatus = "N"
+                    customerNumber = model.customerNumber
                 };
+                
+                var jsonData = _httpConnect.PostAPI(_configuration["CustomerService:URL"], "/Customer/GetInformation", JsonConvert.SerializeObject(request));
+                var response = JsonConvert.DeserializeObject<ResponseHttpConnectModel>(jsonData);
+
+                if (response == null)
+                {
+                    throw new ValidationException("Response is null");
+                }
+                else if (response.status == 200)
+                {
+                    var result = JsonConvert.DeserializeObject<CustomerMasterInfoModel>(JsonConvert.SerializeObject(response.data));
+
+                    return new ResultAuthenModel
+                    {
+                        customerNumber = model.customerNumber,
+                        idCardNumber = result.idCardNumber,
+                        name = result.fullName,
+                        birthDate = result.birthDate,
+                        gender = result.gender,
+                        mobileNumber = result.mobileNumber,
+                        customerStatus = result.status
+                    };
+                }
+                else
+                {
+                    throw new ValidationException("InternalService exception. " + response.error);
+                }
             }
             catch (Exception ex)
             {

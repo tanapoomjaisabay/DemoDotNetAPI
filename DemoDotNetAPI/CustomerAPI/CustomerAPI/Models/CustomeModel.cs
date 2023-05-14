@@ -6,7 +6,6 @@ namespace CustomerAPI.Models
     public class RequestCustomerInfoModel : RequestModel
     {
         public string customerNumber { get; set; } = string.Empty;
-        public string idCardNUmber { get; set; } = string.Empty;
     }
 
     public class ResponseCustomerInfoModel : ResponseModel
